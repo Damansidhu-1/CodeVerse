@@ -34,7 +34,10 @@ async function sendVerificationMail(email , otp) {
 }
 
 OTPSchema.pre("save" , async function(next) {
+   if (this.isNew)
+   {
     await sendVerificationMail(this.email , this.otp);
+   }
     next();
 } )
 

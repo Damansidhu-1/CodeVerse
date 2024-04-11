@@ -38,8 +38,7 @@ exports.createSubSection = async (req , res) => {
                 }
             },
             {new:true},
-        )
-        // TODO : use populate to replace subsection in updatedSection
+        ).populate("subSection");
         // return response
         return res.status(200).json({
             success:true,
