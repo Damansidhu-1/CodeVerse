@@ -1,7 +1,7 @@
 const cloudinary = require("cloudinary").v2;
 
 
-exports.uploadImageToCLoudinay = async (flie ,folder ,height , quality) => {
+exports.uploadImageToCloudinay = async (flie ,folder ,height , quality) => {
 
     const options = {folder};
     if(height)
@@ -15,7 +15,7 @@ exports.uploadImageToCLoudinay = async (flie ,folder ,height , quality) => {
     options.resource_type = "auto";
 
     return await cloudinary.uploader.upload(file.tempFilePath, options);
-    
+
 
 
 }
