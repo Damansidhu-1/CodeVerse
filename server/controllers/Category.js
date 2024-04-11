@@ -1,9 +1,9 @@
-const Tag = require("../models/Tags")
+const Category = require("../models/Category")
 
-// create tag da handler function likhna 
+// create Category da handler function likhna 
 
 
-exports.createTag = async (req ,res )=> {
+exports.createCategory = async (req ,res )=> {
 
     try {
         
@@ -20,7 +20,7 @@ exports.createTag = async (req ,res )=> {
         }
 
         // create entry in DB
-        const tagDetails = await Tag.create({
+        const categoryDetails = await Category.create({
             name:name,
             description:description,
         });
@@ -28,7 +28,7 @@ exports.createTag = async (req ,res )=> {
         //return response
         return res.status(200).json({
             success:true,
-            message:"Tag created Successfully",
+            message:"Category created Successfully",
         })
 
     } catch (error) {
@@ -41,16 +41,16 @@ exports.createTag = async (req ,res )=> {
 
 };
 
-// getAllTags
-exports.showAlltags = async (req , res) => {
+// getAllCategories
+exports.showAllCategories = async (req , res) => {
     
     try {
         
-        const allTags = await Tag.find({} ,{name:true , description:true});
+        const allCategories = await Category.find({} ,{name:true , description:true});
         return res.status(200).json({
             success:true,
-            message:"All Tags returned Successfully",
-            allTags,
+            message:"All Categories returned Successfully",
+            allCategories,
         })
 
     } catch (error) {
