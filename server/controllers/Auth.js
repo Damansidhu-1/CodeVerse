@@ -91,7 +91,7 @@ exports.signup = async (req ,res ) => {
             email,
             password,
             confirmPassword,
-            acountType,
+            accountType,
             contactNumber,
             otp 
         } = req.body;
@@ -126,11 +126,11 @@ exports.signup = async (req ,res ) => {
 
         // find most recent otp form db
         // after find query is written to get most recent OTP stored for that specific email
-        const recentOtp = await OTP.find({email}).sort({createdAt:-1}).limit(1);
-        console.log(recentOtp);
+        const response = await OTP.find({email}).sort({createdAt:-1}).limit(1);
+        console.log(response);
 
         // validate otp
-        if(recentOtp.length == 0)
+        if(response.length == 0)
         {
             // otp not found 
             return res.status(400).json({
@@ -138,7 +138,7 @@ exports.signup = async (req ,res ) => {
                 message:"OTP not found ", 
             })
         } 
-        else if(otp !== recentOtp)
+        else if(otp !== response[0].otp)
         {
             return res.status(400).json({
                 success:false,
@@ -149,6 +149,9 @@ exports.signup = async (req ,res ) => {
         // hash password 
         const hashedPassword = await bcrypt.hash(password , 10);
 
+        // create user
+        let approved = ''
+        approved === "Instructor" ? (approved = false) : (approved = true);
 
         // create entry in body of user
 
@@ -165,7 +168,8 @@ exports.signup = async (req ,res ) => {
             email,
             contactNumber,
             password:hashedPassword,
-            acountType,
+            accountType: accountType,
+            approved: approved,
             additionalDetails:profileDetails._id,
             image:`https://api.dicebear.com/8.x/initials/svg?seed=${firstName} ${lastName}`
         })
@@ -181,7 +185,7 @@ exports.signup = async (req ,res ) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            success:true,
+            success:false,
             message:"user cannot be registered, Please try again"
         })
     }
@@ -201,7 +205,7 @@ exports.login = async (req , res) => {
         // validation of data 
 
         if(!email || !password){
-            return res.status(403).json({
+            return res.status(400).json({
                 success:false,
                 message:'All fields are required ,Please try Again',
 
@@ -210,7 +214,7 @@ exports.login = async (req , res) => {
 
         //check if user exists 
 
-        const user = await User.findOne({email}). populate("additionalDetialas");
+        const user = await User.findOne({email}).populate("additionalDetails");
         if(!user){
             return res.status(401).json({
                 success:false,
@@ -222,15 +226,16 @@ exports.login = async (req , res) => {
 
         if(await bcrypt.compare(password , user.password)){
 
-            const payLoad = {
+            const token = jwt.sign({
                 email: user.email,
                 id:user._id,
-                acountType:user.acountType ,
-            }
-
-            const token = jwt.sign(payLoad , process.env.JWT_SECRET , {
-                expiresIn:"2h"
-            })
+                accountType:user.accountType,
+                },
+                process.env.JWT_SECRET, 
+                {
+                    expiresIn:"24h"
+                }
+            );
 
             user.token = token; 
             user.password = undefined;
@@ -258,7 +263,7 @@ exports.login = async (req , res) => {
 
     } catch (error) {
         console.log(error);
-        return res.status(500 ).json({
+        return res.status(500).json({
             succcess:false,
             message:"Login failiure , Please try again",
         });

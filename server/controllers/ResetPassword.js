@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../models/User')
 const mailSender = require("../utils/mailSender");
 const bcrypt = require('bcrypt');
 
@@ -10,14 +10,11 @@ exports.resetPasswordToken = async (req , res) => {
         
         // get from request di body
 
-        const email = req.body.email;
+        const email = req.body.email
+        const user = await User.findOne({email: email})
 
-        //validation on email
-        if(!email){
-
-        }
+        
         // check is user for that user is present
-        const user = await User.findOne({email:email});
         if(!user)
         {
             return res.json({
@@ -30,29 +27,32 @@ exports.resetPasswordToken = async (req , res) => {
         const token = crypto.randomUUID();
 
         // update user by adding token and expiration time
-        const updateDetails = await User.findOneAndUpdate({email: email} ,
+        const updatedDetails = await User.findOneAndUpdate({email: email} ,
                                                             {
                                                                 token:token,
                                                                 resetPasswordExpires:Date.now()+5*60*1000,
                                                             },{new:true});
+        console.log("DETAILS", updatedDetails);
         // create url 
         const url = `http://localhost:3000/update-password/${token}`
         // send mail containing the url 
         await mailSender(email ,
                         "Password Reset Link" ,
-                        `Password Reset Link: ${token}` )
+                        `Password Reset Link: ${url}` )
         // retrun response
 
         return res.json({
             success:true,
             message:"Email Sent successfully ,Please check email and change password",
+            url,
         });
 
     } catch (error) {
         console.log(error);
         return res.json({
-            success:true,
-            message:"Something went wrong while restting password"
+            success:false,
+            // message:"Something went wrong while restting password",
+            message:error.message,
         });
     }
 

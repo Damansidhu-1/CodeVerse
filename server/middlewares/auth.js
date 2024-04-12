@@ -7,7 +7,7 @@ exports.auth = async (req , res , next)=> {
     try {
         
         // extract token
-        const token = req.cookie.token 
+        const token = req.cookies.token 
                         || req.body.token 
                         || req.header("Authorisation").replace("Bearer ", "");
         
@@ -40,9 +40,11 @@ exports.auth = async (req , res , next)=> {
 
 
     } catch (error) {
+        console.log(error)
         return res.status(401).json({
             success:false,
-            message:"Something went wrong while validating the token",
+            message: error.message,
+            // message:"Something went wrong while validating the token",
         });
     }
 }

@@ -66,7 +66,8 @@ exports.updateSection = async (req , res) => {
         {
             return res.status(400).json({
                 success:false,
-                message:"Missing Properties"
+                message:"Missing Properties",
+
             })
         }
         // update data

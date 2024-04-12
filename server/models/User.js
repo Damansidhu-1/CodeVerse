@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { resetPasswordToken } = require('../controllers/ResetPassword');
 
 const userSchema = new mongoose.Schema({
     firstName:{
@@ -21,7 +20,7 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
-    acountType:{
+    accountType:{
         type:String,
         enum:["Admin" , "Student" , "Instructor"],
         required:true 
