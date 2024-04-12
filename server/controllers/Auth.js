@@ -10,7 +10,7 @@ require('dotenv').config();
 
 // ******** send OTP *********
 
-exports.sendOTP = async (req ,res) => {
+exports.sendotp = async (req ,res) => {
 
     try {
 
@@ -80,7 +80,7 @@ exports.sendOTP = async (req ,res) => {
 
 // ***** SIGN UP *********
 
-exports.signUp = async (req ,res ) => {
+exports.signup = async (req ,res ) => {
 
     try {
         

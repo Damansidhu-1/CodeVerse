@@ -2,7 +2,7 @@ const {instance} = require('../config/razorpay')
 const Course = require('../models/Course')
 const User = require('../models/User')
 const mailSender = require('../utils/mailSender')
-const {courseEnrollmentEmail} = require('../mail/templtes/courseEnrollmentEmail')
+const {courseEnrollmentEmail} = require('../mail/templates/courseEnrollmentEmail')
 const mongoose = require('mongoose')
 
 
@@ -92,7 +92,7 @@ exports.capturePayment = async (req , res) => {
 
 // verify signature of Razorpay and Server
 
-exports.verifySignatue = async (req , res) => {
+exports.verifySignature = async (req , res) => {
     // server teh pea
     const webhookSecret = "12345678";
 
