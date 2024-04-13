@@ -125,6 +125,10 @@ module.exports = {
       },
     },
     extend: {
+      boxShadow: {
+        // eh flatu aa xirect vi kitta ja skda c shaow aal km see video walla code
+        '3xl-trbl':'20px 20px 0 0 rgba(255, 255, 255), -0.5px -5px 40px 0 rgb(147 197 253) ',
+      },
       maxWidth: {
         maxContent: "1260px",
         maxContentTab: "650px"
