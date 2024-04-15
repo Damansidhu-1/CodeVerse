@@ -49,7 +49,7 @@ exports.sendotp = async (req ,res) => {
     
             });
 
-            result = await OTP.findOne({otp : otp});
+            // result = await OTP.findOne({otp : otp});
         }
 
         const otpPayload = {email , otp};
@@ -61,7 +61,7 @@ exports.sendotp = async (req ,res) => {
 
         // return res
         return res.status(200).json({
-            sucess:true,
+            success:true,
             message:'OTP sent succesfully',
             otp,
         })
