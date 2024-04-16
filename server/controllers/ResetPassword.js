@@ -86,7 +86,7 @@ exports.resetPassword = async (req , res) => {
             });
         }
         // check token time
-        if(userDeails.resetPasswordExpires < Date.now()){
+        if(!(userDeails.resetPasswordExpires > Date.now())){
             
             return res.json({
                 success:false,
