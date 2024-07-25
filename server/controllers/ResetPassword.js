@@ -1,7 +1,7 @@
 const User = require('../models/User')
 const mailSender = require("../utils/mailSender");
 const bcrypt = require('bcrypt');
-
+const crypto = require("crypto")
 
 //resetPassword Token
 exports.resetPasswordToken = async (req , res) => {
@@ -24,7 +24,7 @@ exports.resetPasswordToken = async (req , res) => {
         }
         // generate token 
 
-        const token = crypto.randomUUID();
+        const token = crypto.randomBytes(20).toString("hex")
 
         // update user by adding token and expiration time
         const updatedDetails = await User.findOneAndUpdate({email: email} ,
@@ -38,7 +38,7 @@ exports.resetPasswordToken = async (req , res) => {
         // send mail containing the url 
         await mailSender(email ,
                         "Password Reset Link" ,
-                        `Password Reset Link: ${url}` )
+                        `Password Reset Link: ${url}. Please click this url to reset your password.` )
         // retrun response
 
         return res.json({
@@ -109,6 +109,7 @@ exports.resetPassword = async (req , res) => {
 
     } catch (error) {
         return res.json({
+            error: error.message,
             success:false,
             message:"Something went wrong while sending reset password mail",
         });

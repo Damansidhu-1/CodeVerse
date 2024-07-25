@@ -44,8 +44,8 @@ exports.sendotp = async (req ,res) => {
         while(result){
             var otp = otpGenerator.generate(6 , {
                 upperCaseAlphabets:false,
-                lowerCaseAlphabets:false,
-                specialChars:false,
+                // lowerCaseAlphabets:false,
+                // specialChars:false,
     
             });
 
@@ -135,7 +135,7 @@ exports.signup = async (req ,res ) => {
             // otp not found 
             return res.status(400).json({
                 success:false,
-                message:"OTP not found ", 
+                message:"The OTP is not valid", 
             })
         } 
         else if(otp !== response[0].otp)
@@ -321,6 +321,7 @@ exports.changePassword = async (req, res) => {
 		try {
 			const emailResponse = await mailSender(
 				updatedUserDetails.email,
+                "Password for your account has been updated",
 				passwordUpdated(
 					updatedUserDetails.email,
 					`Password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`

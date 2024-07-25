@@ -41,17 +41,16 @@ exports.createRating = async(req , res) => {
                                             course:courseId,
                                             user:userId,
                                         })
-        // update Course
-        const updatedCourseDetails =  await Course.findByIdAndUpdate({_id:courseId},
-                                                {
-                                                    $push:{
-                                                        ratingAndReviews:ratingReview._id
-                                                    }
-                                                },
-                                                {new:true})
+    // Add the rating and review to the course
+    await Course.findByIdAndUpdate(courseId, {
+        $push: {
+          ratingAndReviews: ratingReview,
+        },
+      })
+      await courseDetails.save()
         console.log(updatedCourseDetails);
         // return response
-        return res.status(200).json({
+        return res.status(201).json({
             success:true,
             message:"Rating And Review created successfully",
             ratingReview,
