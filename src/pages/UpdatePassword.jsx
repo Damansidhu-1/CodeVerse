@@ -1,13 +1,16 @@
-import { useState , Link } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { useLocation } from "react-router-dom";
-import { IoEye, IoEyeOff } from "react-icons/io5";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { resetPassword } from "../services/operations/authAPI";
+import { BiArrowBack } from "react-icons/bi"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 
 const UpdatePassword =() => {
 
+    const navigate = useNavigate()
     const dispatch = useDispatch();
     const location = useLocation();
+    const { loading } = useSelector((state) => state.auth)
 
     const [formData , setFormData] = useState({
         password:"",
@@ -18,7 +21,6 @@ const UpdatePassword =() => {
 
     const [showPassword , setShowPassword] = useState(false);
     const [showConfirmPassword , setShowConfirmPassword] = useState(false);
-    const {loading} = useSelector( (state) => state.auth );
 
     const handleOnChange = (e) =>{
         setFormData( (prevData) => ({
@@ -30,22 +32,28 @@ const UpdatePassword =() => {
     const handleOnSubmit = (e) => {
         e.preventDefault();
         const token = location.pathname.split('/').at(-1);
-        dispatch(resetPassword(password,confirmPassword , token ))
+        dispatch(resetPassword(password,confirmPassword , token, navigate ))
     }
 
     return (
-        <div className="text-white">
+        <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
             {
                 loading ? (
-                    <div>Loading...</div>
+                    <div className="spinner"></div>
                 ) : (
-                    <div>
-                        <h1>Choose  new password</h1>
-                        <p>Almost done. Enter your new password and youre all set.</p>
+                    <div className="max-w-[500px] p-4 lg:p-8">
+                        <h1 className="text-[1.875rem] font-semibold leading-[2.375rem] text-richblack-5">
+                            Choose  new password
+                        </h1>
+                        <p className="my-4 text-[1.125rem] leading-[1.625rem] text-richblack-100">
+                            Almost done. Enter your new password and youre all set.
+                        </p>
                         <form onSubmit={handleOnSubmit}>
 
-                            <label>
-                                <p>New password*</p>
+                            <label className="relative">
+                                <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+                                    New Password <sup className="text-pink-200">*</sup>
+                                </p>
                                 <input 
                                     required
                                     type={showPassword ? ("text") : ("password")}
@@ -53,46 +61,58 @@ const UpdatePassword =() => {
                                     value={password}
                                     onChange={handleOnChange}
                                     placeholder="Password"
-                                    className="w-full p-6 bg-richblack-600 text-richblack-5 "
+                                    className="form-style w-full !pr-10"
                                 />
                                 <span
                                     onClick={() => setShowPassword( (prev) => !prev)}
+                                    className="absolute right-3 top-[38px] z-[10] cursor-pointer"
                                 >
-                                    {
-                                        showPassword ? <IoEyeOff fontSize={24} /> : <IoEye fontSize={24} />
-                                    }
+                                    {showPassword ? (
+                                    <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+                                    ) : (
+                                    <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                                    )}
                                 </span>
                             </label>
 
-                            <label>
-                                <p>Confirm password*</p>
-                                <input 
+                            <label className="relative mt-3 block">
+                                <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+                                    Confirm New Password <sup className="text-pink-200">*</sup>
+                                </p>
+                                <input
                                     required
-                                    type={showConfirmPassword ? ("text") : ("password")}
+                                    type={showConfirmPassword ? "text" : "password"}
                                     name="confirmPassword"
                                     value={confirmPassword}
                                     onChange={handleOnChange}
                                     placeholder="Confirm Password"
-                                    className="w-full p-6 bg-richblack-600 text-richblack-5 "
+                                    className="form-style w-full !pr-10"
                                 />
                                 <span
-                                    onClick={() => setShowConfirmPassword( (prev) => !prev)}
+                                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                                    className="absolute right-3 top-[38px] z-[10] cursor-pointer"
                                 >
-                                    {
-                                        showConfirmPassword ? <IoEyeOff fontSize={24} /> : <IoEye fontSize={24} />
-                                    }
+                                    {showConfirmPassword ? (
+                                    <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+                                    ) : (
+                                    <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                                    )}
                                 </span>
                             </label>
 
-                            <button type="Submit">
+                            <button type="Submit"
+                                className="mt-6 w-full rounded-[8px] bg-yellow-50 py-[12px] px-[12px] font-medium text-richblack-900"
+                            >
                                 Reset Password
                             </button>
 
                         </form>
 
-                        <div>
+                        <div className="mt-6 flex items-center justify-between">
                             <Link to="/login" >
-                                <p>Back to login</p>
+                            <p className="flex items-center gap-x-2 text-richblack-5">
+                                <BiArrowBack /> Back To Login
+                            </p>
                             </Link>
                         </div>
 

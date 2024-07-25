@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast"
 import { setLoading, setToken } from "../../slices/authSlice"
 import { resetCart } from "../../slices/cartSlice"
 import { setUser } from "../../slices/profileSlice"
-import { apiConnector } from "../apiconnector"
+import { apiConnector } from "../apiConnector"
 import { endpoints } from "../apis"
 
 const {
@@ -142,29 +142,31 @@ export function getPasswordResetToken(email, setEmailSent) {
   }
 }
 
-export function resetPassword(password, confirmPassword, token) {
+export function resetPassword(password, confirmPassword, token, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
     try {
-      
-      const response = await apiConnector("POST", RESETPASSWORD_API , {password , confirmPassword , token});
+      const response = await apiConnector("POST", RESETPASSWORD_API, {
+        password,
+        confirmPassword,
+        token,
+      })
 
-      console.log("RESET PASSWORD RESPONSE...." ,response)
+      console.log("RESETPASSWORD RESPONSE............", response)
 
-      if(!response.data.success)
-      {
-        throw new Error(response.data.message);
+      if (!response.data.success) {
+        throw new Error(response.data.message)
       }
-      
-      toast.success("Password Has Been reset succesfully");
 
+      toast.success("Password Reset Successfully")
+      navigate("/login")
     } catch (error) {
-      console.log("RESET PASSTOKEN ERROR............", error)
-      toast.error("Unable to reset password")
+      console.log("RESETPASSWORD ERROR............", error)
+      toast.error("Failed To Reset Password")
     }
-    dispatch(setLoading(false));
-    
+    toast.dismiss(toastId)
+    dispatch(setLoading(false))
   }
 }
 

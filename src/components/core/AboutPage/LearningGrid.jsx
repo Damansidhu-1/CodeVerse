@@ -45,17 +45,13 @@ const LearningGrid = () => {
                     return (
                         <div
                             key={index}
-                            className={`${index === 0 && "lg:col-span-2 lg:h-[280px] p-5" }
-                                ${
-                                    card.order % 2 === 1 ? ("bg-richblack-700 lg:h-[280px] p-5") : ("bg-richblack-800 lg:h-[280px] p-5")
-                                }
-                                ${
-                                    card.order === 3 && "lg:col-start-2 lg:h-[280px] p-5"
-                                }
-                                ${
-                                    card.order < 0 && "bg-transparent"
-                                }
-                            `}
+                            className={`${index === 0 && "xl:col-span-2 xl:h-[294px]"}  ${
+                                card.order % 2 === 1
+                                  ? "bg-richblack-700 h-[294px]"
+                                  : card.order % 2 === 0
+                                  ? "bg-richblack-800 h-[294px]"
+                                  : "bg-transparent"
+                              } ${card.order === 3 && "xl:col-start-2"}  `}
                         >
                             {
                                 card.order < 0 ? (
@@ -65,15 +61,15 @@ const LearningGrid = () => {
                                             <HighlightText text={card.highlightText} />
                                         </div>
 
-                                        <p className="font-medium">{card.description}</p>
+                                        <p className="text-richblack-300 font-medium">{card.description}</p>
 
-                                        <div className="w-fit ">
+                                        <div className="w-fit mt-2">
                                             <CTAButton active={true} linkto={card.BtnLink}>{card.BtnText}</CTAButton>
                                         </div>
 
                                     </div>
                                 ) : (
-                                    <div className="flex flex-col gap-8 p-7 ">
+                                    <div className="flex flex-col gap-8 p-8 ">
                                         <h1 className=" text-richblack-5 text-lg" >
                                             {card.heading}
                                         </h1>

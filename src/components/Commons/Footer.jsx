@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import {FooterLink2} from "../../data/footer-links";
 
+// Images
+import Logo from "../../assets/Logo/Logo-Full-Light.png";
+
 // icons
 import { FaFacebook, FaGoogle, FaTwitter, FaYoutube } from "react-icons/fa";
 
@@ -74,7 +77,7 @@ const Footer = () => {
                                             key={index}
                                             className="text-[14px] cursor-pointer hover:text-richblack-50 transition-all duration-200"
                                             >
-                                                <Link to={element.toLowerCase()}>
+                                                <Link to={element.split(" ").join("-").toLowerCase()}>
                                                 {element}
                                                 </Link>
                                             </div>
@@ -104,7 +107,7 @@ const Footer = () => {
                                             key={index}
                                             className="text-[14px] cursor-pointer hover:text-richblack-50 transition-all duration-200"
                                             >
-                                                <Link to={element.toLowerCase()}>
+                                                <Link to={element.split(" ").join("-").toLowerCase()}>
                                                 {element}
                                                 </Link>
                                             </div>
@@ -123,7 +126,7 @@ const Footer = () => {
                                             key={index}
                                             className="text-[14px] cursor-pointer hover:text-richblack-50 transition-all duration-200"
                                             >
-                                                <Link to={element.toLowerCase()}>
+                                                <Link to={element.split(" ").join("-").toLowerCase()}>
                                                 {element}
                                                 </Link>
                                             </div>
