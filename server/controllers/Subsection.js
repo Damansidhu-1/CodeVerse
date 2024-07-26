@@ -25,7 +25,7 @@ exports.createSubSection = async (req , res) => {
         // create subsection
         const SubSectionDetails = await SubSection.create({
             title: title,
-            timeDuration: `${uploadDetails.duration}`,
+            timeDuration: `${UploadDetails.duration}`,
             description: description,
             videoUrl: UploadDetails.secure_url,
         })
