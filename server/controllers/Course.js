@@ -208,7 +208,7 @@ exports.getAllCourses = async (req, res) => {
 				thumbnail: true,
 				instructor: true,
 				ratingAndReviews: true,
-				studentsEnroled: true,
+				studentsEnrolled: true,
 			}
 		)
 			.populate("instructor")
@@ -265,7 +265,7 @@ exports.getCourseDetails = async (req , res) => {
 		}
 
 		let totalDurationInSeconds = 0
-		courseDetails.courseContent.forEach((content) => {
+		courseDetails[0].courseContent.forEach((content) => {
 		  content.subSection.forEach((subSection) => {
 			const timeDurationInSeconds = parseInt(subSection.timeDuration)
 			totalDurationInSeconds += timeDurationInSeconds
