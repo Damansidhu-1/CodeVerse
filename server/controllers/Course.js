@@ -30,7 +30,8 @@ exports.createCourse = async (req, res) => {
 		const tag = JSON.parse(_tag)
 		const instructions = JSON.parse(_instructions)
 	
-
+		console.log("Category id checking ",category);
+		
 		// Check if any of the required fields are missing
 		if (
 			!courseName ||
@@ -103,15 +104,18 @@ exports.createCourse = async (req, res) => {
 			{ new: true }
 		);
 		// Add the new course to the Categories
-		await Category.findByIdAndUpdate(
+		console.log("HERRREeEeeeeeEE",newCourse._id);
+		
+		const categoryDetails2 = await Category.findByIdAndUpdate(
 			{ _id: category },
 			{
-				$push: {
-					course: newCourse._id,
-				},
+			  $push: {
+				courses: newCourse._id,
+			  },
 			},
 			{ new: true }
-		);
+		  )
+		  console.log("HEREEEEEEEE", categoryDetails2)
 		// Return the new course and a success message
 		res.status(200).json({
 			success: true,
@@ -403,7 +407,7 @@ exports.getFullCourseDetails = async (req, res) => {
 	  }
   
 	  // Unenroll students from the course
-	  const studentsEnrolled = course.studentsEnroled
+	  const studentsEnrolled = course.studentsEnrolled
 	  for (const studentId of studentsEnrolled) {
 		await User.findByIdAndUpdate(studentId, {
 		  $pull: { courses: courseId },

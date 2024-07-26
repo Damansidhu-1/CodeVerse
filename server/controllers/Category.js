@@ -1,7 +1,9 @@
 const Category = require("../models/Category")
 
 // create Category da handler function likhna 
-
+function getRandomInt(max) {
+	return Math.floor(Math.random() * max)
+}
 
 exports.createCategory = async (req ,res )=> {
 
@@ -121,9 +123,12 @@ exports.categoryPageDetails = async (req, res) => {
 			.slice(0, 10);
 
 		res.status(200).json({
-			selectedCourses,
-			differentCategory,
-			mostSellingCourses,
+			success: true,
+			data: {
+			  selectedCategory,
+			  differentCategory,
+			  mostSellingCourses,
+			},
 		});
 	} catch (error) {
 		return res.status(500).json({
